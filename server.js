@@ -11,14 +11,14 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-connectDB();
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀");
+});
 
 app.use("/user", userRoute);
 
-app.get("/", (req, res) => {
-  res.send("Server is running...");
-});
+await connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server is listening at PORT ${PORT}`);
-});
+}); 
