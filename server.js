@@ -1,20 +1,24 @@
-import express from 'express'
-
+import express from "express";
 import dotenv from "dotenv";
-import connectDB from './database/db.js';
+import connectDB from "./database/db.js";
+import userRoute from "./routes/userRoute.js";
 
+dotenv.config();
 
-dotenv.config()
+const app = express();
 
-const app = express()
+const PORT = process.env.PORT || 5000;
 
+app.use(express.json());
 
+connectDB();
 
+app.use("/user", userRoute);
 
-const PORT = process.env.NEXT_PUBLIC_SERVER_URL;
-
+app.get("/", (req, res) => {
+  res.send("Server is running...");
+});
 
 app.listen(PORT, () => {
-  connectDB
-  console.log(`server is listening at PORT ${PORT}`)
-})
+  console.log(`Server is listening at PORT ${PORT}`);
+});
