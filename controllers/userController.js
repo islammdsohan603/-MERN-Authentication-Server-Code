@@ -177,7 +177,7 @@ export const loginUser = async (req, res) => {
     await user.save()
     return res.status(200).json({
       success: true,
-      message: `Welcome back ${user.name}`,
+      message: `Welcome back ${user.username}`,
       accessToken,
       refreshToken,
       data: user
