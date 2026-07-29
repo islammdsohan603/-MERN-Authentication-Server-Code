@@ -117,3 +117,50 @@ export const verification = async (req, res) => {
     })
   }
 }
+
+export const loginUser = async (req, res) => {
+  try {
+
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required"
+      })
+    }
+
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized access"
+      })
+    }
+
+    const passwordCheck = await bcrypt.compare(password, user.password)
+
+    if (!passwordCheck) {
+      return res.status(402).json({
+        success: false,
+        message: "Incorrect Password"
+      })
+    }
+
+    // check if user verify
+
+    if (user.isVerified !== true) {
+      return res.status(403).json({
+        success: false,
+        message: "Verify your account than login"
+      })
+    }
+
+
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
+}
