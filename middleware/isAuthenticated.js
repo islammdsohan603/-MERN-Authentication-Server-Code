@@ -1,6 +1,6 @@
 import jwt, { decode } from "jsonwebtoken";
-import { errorMonitor } from "nodemailer/lib/xoauth2";
-import { User } from "../models/userModel";
+
+import { User } from "../models/userModel.js";
 
 export const isAuthenticated = async (req, res, next) => {
 
