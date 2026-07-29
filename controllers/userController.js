@@ -1,4 +1,5 @@
 import { verifyMail } from "../emailVerify/verifyMail.js";
+import { Session } from "../models/sessionModel.js";
 import { User } from "../models/userModel.js";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -155,7 +156,32 @@ export const loginUser = async (req, res) => {
       })
     }
 
+    const existingSession = await Session.findOne({ userId: user._id })
 
+    if (existingSession) {
+      await Session.deleteOne({ userId: user._id })
+    }
+
+    // create a new session
+
+    await Session.create({ userId: user._id })
+
+    // generate tokens
+    const accessToken = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "2d" });
+
+    const refreshToken = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "4d" });
+
+
+    user.isLoggedIn = true
+
+    await user.save()
+    return res.status(200).json({
+      success: true,
+      message: `Welcome back ${user.name}`,
+      accessToken,
+      refreshToken,
+      data: user
+    })
 
   } catch (err) {
     return res.status(500).json({
