@@ -65,8 +65,8 @@ export const registerUser = async (req, res) => {
 
 export const verification = async (req, res) => {
   try {
-    const authHeader = req.haaders.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer")) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         success: false,
         message: "Authorization token is missing or invalid"
