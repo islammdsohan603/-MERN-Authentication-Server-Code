@@ -176,12 +176,21 @@ export const loginUser = async (req, res) => {
     user.isLoggedIn = true
 
     await user.save()
+
+    const safeUser = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      isVerified: user.isVerified,
+      isLoggedIn: user.isLoggedIn,
+    };
+
     return res.status(200).json({
       success: true,
       message: `Welcome back ${user.username}`,
       accessToken,
       refreshToken,
-      data: user
+      user: safeUser
     })
 
   } catch (err) {
