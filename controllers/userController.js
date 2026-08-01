@@ -233,7 +233,7 @@ export const forgotPassword = async (req, res) => {
       })
     }
 
-    const otp = Math.floor(100000 + Math.random() * 9000000).toString()
+    const otp = Math.floor(100000 + Math.random() * 900000).toString()
     const expiry = new Date(Date.now() + 4 * 60 * 1000)
 
     user.otp = otp,
