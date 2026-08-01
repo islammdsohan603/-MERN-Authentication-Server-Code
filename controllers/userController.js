@@ -256,68 +256,64 @@ export const forgotPassword = async (req, res) => {
 
 
 export const verifyOTP = async (req, res) => {
-  const { otp } = req.body
-  const email = req.params.email
+  const { otp } = req.body;
+  const email = req.params.email;
 
   if (!otp) {
     return res.status(400).json({
-
       success: false,
-      message: "OTP is requried"
-
-    })
+      message: "OTP is required"
+    });
   }
 
   try {
-
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({
-        succes: false,
+        success: false, // "succes" থেকে "success" বানান ফিক্স করা হয়েছে
         message: "User not found"
-      })
+      });
     }
 
     if (!user.otp || !user.otpExpiry) {
       return res.status(400).json({
         success: false,
         message: "OTP not generated or already verified"
-      })
+      });
     }
 
     if (user.otpExpiry < new Date()) {
       return res.status(400).json({
         success: false,
-        message: "OTP has expired, Pleass request a new one"
-      })
+        message: "OTP has expired, Please request a new one"
+      });
     }
 
-    if (otp !== user.otp) {
+    // String কনভার্সন নিশ্চিত করা হলো
+    if (String(otp) !== String(user.otp)) {
       return res.status(400).json({
         success: false,
         message: "Invalid OTP"
-      })
+      });
     }
 
-    user.otp = null
-    user.otpExpiry = null
-    await user.save()
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
+
     return res.status(200).json({
       success: true,
-      message: "OTP has created successfully"
-    })
+      message: "OTP verified successfully" // মেসেজ ফিক্স করা হয়েছে
+    });
 
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: error.message
-    })
+    });
   }
-
-
-}
-
+};
 export const changePassword = async (req, res) => {
   const { newPassword, confirmPassword } = req.body
   const email = req.params.email
