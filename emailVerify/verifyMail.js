@@ -11,6 +11,10 @@ export const verifyMail = async (token, email) => {
       },
     });
 
+    const frontendUrl = (process.env.FRONTEND_URL || "https://frontend-one-red-suqmzwnaqu.vercel.app")
+      .replace(/\/$/, "");
+    const verifyLink = `${frontendUrl}/verify/${token}`;
+
     const mailConfigurations = {
       from: process.env.EMAIL_USER,
       to: email,
@@ -36,7 +40,7 @@ export const verifyMail = async (token, email) => {
 
       <p>Please verify your email by clicking the button below.</p>
 
-      <a href='https://frontend-one-red-suqmzwnaqu.vercel.app/localhost:3000/verify/${token}'>
+      <a href='${verifyLink}'>
         <button
           style='
               background:#2563eb;
