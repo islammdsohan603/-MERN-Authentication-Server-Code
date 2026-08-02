@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://frontend-one-red-suqmzwnaqu.vercel.app',
   credentials: true
 
 }))
@@ -27,4 +27,6 @@ await connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server is listening at PORT ${PORT}`);
-}); 
+});
+
+export default app;

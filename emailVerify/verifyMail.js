@@ -36,7 +36,7 @@ export const verifyMail = async (token, email) => {
 
       <p>Please verify your email by clicking the button below.</p>
 
-      <a href='http://localhost:3000/verify/${token}'>
+      <a href='https://frontend-one-red-suqmzwnaqu.vercel.app/localhost:3000/verify/${token}'>
         <button
           style='
               background:#2563eb;
